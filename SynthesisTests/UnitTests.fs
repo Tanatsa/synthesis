@@ -13,6 +13,8 @@ TO DO TESTING, but it is convenient for this prac.
 
 [<Test>]
 let ``abelar`` () =
+    (*let abelar a= a>12 && a<3097 && a%12=0*)
+
     abelar 0 |> should equal false
     abelar 12 |> should equal false
     abelar 13 |> should equal false
@@ -24,6 +26,11 @@ let ``abelar`` () =
 
 [<Test>]
 let ``area`` () =
+    (*let area b h = 
+        match b<0.0 || h<0.0 with
+        |false->(0.5*b)*h
+        |_-> failwith "negative values"*)
+
     area 15.0 23.0 |> should equal 172.5
     (fun () -> area -4.0 -10.0) |> shouldFail
     (fun () -> area -5.0 11.0) |> shouldFail
@@ -37,6 +44,11 @@ let ``area`` () =
 
 [<Test>]
 let ``zollo`` () =
+    (*let zollo x = 
+        match x<0 with
+        |true-> -1*x
+        |_-> x*2 *)
+
     zollo 10 |> should equal 20
     zollo 0 |> should equal 0
     zollo -1 |> should equal 1
@@ -45,6 +57,11 @@ let ``zollo`` () =
 
 [<Test>]
 let ``min`` () =
+   (* let min a b =
+        match a<b with
+        |true -> a
+        |_ -> b
+        *)
     min 0 0 |> should equal 0
     min 5 5 |> should equal 5
     min 5 -5 |> should equal -5
@@ -58,6 +75,11 @@ let ``min`` () =
 
 [<Test>]
 let ``max`` () =
+    (*let max a b =
+        match a<b with
+        |true -> b
+        |_ -> a
+        *)
     max 0 0 |> should equal 0
     max 5 5 |> should equal 5
     max 5 -5 |> should equal 5
@@ -71,6 +93,8 @@ let ``max`` () =
 
 [<Test>]
 let ``ofTime`` () =
+    (*let ofTime hr min sec = (hr*3600) + (min*60) + sec*)
+
     ofTime 0 0 0 |> should equal 0
     ofTime 5 0 0 |> should equal 18000
     ofTime 0 5 0 |> should equal 300
@@ -83,6 +107,11 @@ let ``ofTime`` () =
 
 [<Test>]
 let ``toTime`` () =
+    (*let toTime sec =
+        match sec<0 with
+        |true->(0,0,0)
+        |_-> ((sec/3600), ((sec%3600)/60), ((sec%3600)%60))
+*)
     toTime 0 |> should equal (0,0,0)
     toTime 18000 |> should equal (5,0,0)
     toTime 300 |> should equal (0,5,0)
@@ -96,6 +125,18 @@ let ``toTime`` () =
 
 [<Test>]
 let ``digits`` () =
+   (* 
+    let rec digits x =
+        match x < 0 with
+        |false-> 
+            match (x = 0)||(x = 1)||(x = 2)||(x = 3)||(x = 4)||(x = 5)||(x = 6)||(x = 7)||(x = 8)||(x = 9) with
+            |true-> 1
+            |_-> 1+ digits (x/10)
+        |_-> 
+            match (x = -1)||(x = -2)||(x = -3)||(x = -4)||(x = -5)||(x = -6)||(x = -7)||(x = -8)||(x = -9) with
+            |true -> 1
+            |_-> 1 + digits ((x/10)* -1)
+            *)
     digits 0 |> should equal 1
     digits 1 |> should equal 1
     digits 10 |> should equal 2
@@ -114,6 +155,14 @@ let ``digits`` () =
 
 [<Test>]
 let ``minmax`` () =
+   
+
+  (*let minmax (a,b,c,d) =
+        let smaller_value = min d c |> min b |> min a
+        let larger_value = max c b |> max a |> max d
+        (smaller_value,larger_value)
+    *)
+        
     minmax (6,6,6,6) |> should equal (6,6)
     minmax (4,6,8,10) |> should equal (4,10)
     minmax (9,7,5,3) |> should equal (3,9)
@@ -143,6 +192,14 @@ let ``minmax`` () =
 
 [<Test>]
 let ``isLeap`` () =
+   (* let isLeap yr =
+        match yr < 1582 with
+        |true->failwith "too far behind"
+        |_-> 
+            match ((yr%4=0)&&(not(yr%100=0)))  || (yr%400=0) with
+            |true-> true
+            |_->false
+            *)
     (fun () -> isLeap 1581) |> shouldFail
     (fun () -> isLeap -3) |> shouldFail
     isLeap 1582 |> should equal false
@@ -165,6 +222,25 @@ let ``isLeap`` () =
 
 [<Test>]
 let ``month`` () =
+  (*  let month x =
+        match x < 1 || x > 12 with
+        |true->failwith "there is only 12 months in a year, number of month supplied is invalid"
+        |_-> 
+            match x with
+            |1->("January",31)
+            |2->("February",28)
+            |3->("March",31)
+            |4->("April",30)
+            |5->("May",31)
+            |6->("June",30)
+            |7->("July",31)
+            |8->("August",31)
+            |9->("September",30)
+            |10->("October",31)
+            |11->("November",30)
+            |12->("December",31)
+           *) 
+            
     month 1 |> should equal ("January", 31)
     month 2 |> should equal ("February", 28)
     month 3 |> should equal ("March", 31)
@@ -183,6 +259,21 @@ let ``month`` () =
 
 [<Test>]
 let ``toBinary`` () =
+   (* let rec toBinary y=
+        match y<0 with
+        |true->failwith "umm negative numders are invalid"
+        |_->
+            match y/2 = 0 with
+            |true-> 
+                match (y%2) with
+                |0 -> "0"
+                |_-> "1"
+            |_->toBinary (y/2) + 
+                match (y%2) with
+                |0 -> "0"
+                |_-> "1"
+                
+*)
     toBinary 0 |> should equal "0"
     toBinary 1 |> should equal "1"
     (fun () -> toBinary -1) |> shouldFail
@@ -195,6 +286,7 @@ let ``toBinary`` () =
 
 [<Test>]
 let ``bizFuzz`` () =
+
     bizFuzz 1 |> should equal (0,0,0)
     bizFuzz 3 |> should equal (1,0,0)
     bizFuzz 5 |> should equal (1,1,0)
